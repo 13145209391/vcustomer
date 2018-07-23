@@ -18,7 +18,7 @@
 					</div>
 			 </div>
 			 <div class="form-group">
-					<label for="">年龄</label>
+					<label>年龄</label>
 					<input type="text" class="form-control" placeholder="Age" v-model="customer.age">
 			 </div>
            <div class="form-group">

@@ -1,5 +1,6 @@
 <template>
   <div class="edit container">
+		 <Alert v-if="alert" v-bind:message="alert"></Alert>
      <h1 class="page-header">编辑用户</h1>   
      <form v-on:submit="updataCustomer">
          <div class="well">
@@ -53,24 +54,26 @@
 </template>
 
 <script>
+	import Alert from './Alert'
 export default {
   name: 'edit',
   data () {
     return {
         customer:{},
+				alert:""
     }
   },
   methods:{
 	  fetchCustomer(id){
-		  this.$http.get("http://localhost:3000/users/"+ id)
+		  this.axios.get("http://localhost:3000/users/"+ id)
 		      .then(response =>{
-				  console.log(response)
-				  this.customer = response.body;
+				  //console.log(response)
+				  this.customer = response.data;
 			  })
 	  },
       updataCustomer(e){
           if(!this.customer.name || !this.customer.sex ||!this.customer.age ||!this.customer.phone ||!this.customer.email){
-               alert("请添加对应姓名、性别、年龄、电话、邮箱的信息")
+               this.alert = "请添加对应姓名、性别、年龄、电话、邮箱的信息"
           }else{
               let updataCustomer = {
                   name : this.customer.name,
@@ -83,8 +86,8 @@ export default {
                   profession : this.customer.profession,
                   profile : this.customer.profile
               }
-              this.$http.put("http://localhost:3000/users/" + this.$route.params.id,updataCustomer)
-                  .then( function(response){
+              this.axios.put("http://localhost:3000/users/" + this.$route.params.id,updataCustomer)
+                  .then( response =>{
                       //console.log(response)
                       this.$router.push({path:"/",query:{alert:"用户信息更新成功!"}});
                   })
@@ -95,7 +98,10 @@ export default {
   },
   created(){
 	  this.fetchCustomer(this.$route.params.id)
-  }
+  },
+	components:{
+		Alert
+	}
 }
 </script>
 

@@ -33,15 +33,15 @@ export default {
   },
   methods:{
     fetchCustomer(id){
-      this.$http.get("http://localhost:3000/users/"+ id)
+      this.axios.get("http://localhost:3000/users/"+ id)
           .then( response => {
               //console.log(response)
-              this.customer = response.body;
+              this.customer = response.data;
           })
     },
 		deleteCustomer(id){
-			 this.$http.delete("http://localhost:3000/users/"+ id)
-			     .then(function(){
+			 this.axios.delete("http://localhost:3000/users/"+ id)
+			     .then(response=>{
 						 this.$router.push({path:"/",query:{alert:"用户删除成功！"}})
 					 })
 		}
